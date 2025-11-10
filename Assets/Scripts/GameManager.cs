@@ -171,8 +171,8 @@ public class GameManager : MonoBehaviour
 
         // ジャンル別シャッフル → 各2本 → 合体 → 全体シャッフル
         var reflex = allMiniGames.Where(g => g.genre == "reflex").OrderBy(_ => UnityEngine.Random.value).Take(2);
-        var mash = allMiniGames.Where(g => g.genre == "mash").OrderBy(_ => UnityEngine.Random.value).Take(2);
-        var hold = allMiniGames.Where(g => g.genre == "hold").OrderBy(_ => UnityEngine.Random.value).Take(2);
+        var mash   = allMiniGames.Where(g => g.genre == "mash").OrderBy(_ => UnityEngine.Random.value).Take(2);
+        var hold   = allMiniGames.Where(g => g.genre == "hold").OrderBy(_ => UnityEngine.Random.value).Take(2);
 
         diagnosisQueue.AddRange(reflex);
         diagnosisQueue.AddRange(mash);

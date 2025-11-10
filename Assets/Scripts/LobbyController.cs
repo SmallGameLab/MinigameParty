@@ -2,6 +2,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// ロビー専用の統合コントローラ
@@ -43,15 +44,20 @@ public class LobbyController : MonoBehaviour
         if (modePanel) modePanel.SetActive(false);
         if (readyHint) readyHint.gameObject.SetActive(false);
 
-        // モード選択ボタンの結線
+        // 診断モードボタン：旧 → 新
         if (btnDiagnosis) btnDiagnosis.onClick.AddListener(() =>
         {
-            GameManager.Instance.StartGameSequence(GameMode.Diagnosis);
+            GameManager.Instance.StartDiagnosis();   // ← これだけでOK
         });
-        // LobbyController.cs で btnFreePlay の onClick をこうする
+
+        // フリープレイボタン：FreePlay選択シーンへ（2案のどちらか）
         if (btnFreePlay) btnFreePlay.onClick.AddListener(() =>
         {
-            GameManager.Instance.StartFreePlaySelection();
+            // A案：直接シーンを開く
+            SceneManager.LoadScene("FreePlaySelectScene");
+
+            // B案：GameManager 経由にしたい場合は、下の「2) 追加ヘルパー」を入れてから↓を使う
+            // GameManager.Instance.GoToFreePlaySelection();
         });
 
 
