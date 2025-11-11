@@ -136,34 +136,6 @@ public class GameManager : MonoBehaviour
         LoadSceneSafe(info.sceneName);
     }
 
-    /// 各ミニゲーム“シーン”がラウンド終了時に呼ぶ窓口
-    /// results: (playerName, rawScore) のリスト
-    /// lowerScoreIsBetter: 反応時間(ms)など小さいほど良い場合 true
-    public void ReportRoundResult(List<(string name, int rawScore)> results, bool lowerScoreIsBetter)
-    {
-        CalculatePoints(results, lowerScoreIsBetter);
-
-        if (currentGameMode == GameMode.Diagnosis)
-        {
-            // 次のミニゲーム or 診断結果
-            diagnosisIndex++;
-            if (diagnosisIndex >= diagnosisQueue.Count)
-            {
-                CalculateFinalResults();
-                LoadResultScene();
-            }
-            else
-            {
-                LoadSceneSafe(diagnosisQueue[diagnosisIndex].sceneName);
-            }
-        }
-        else // FreePlay
-        {
-            // 単発は選択画面に戻す（シーン名は後フェーズで決める）
-            LoadFreePlaySelectScene();
-        }
-    }
-
     // ===== 内部：診断6本の組み立て =====
     void BuildDiagnosisQueue()
     {
@@ -325,5 +297,69 @@ public class GameManager : MonoBehaviour
         }
         // Build Settings 未登録だとエラーになる点に注意
         SceneManager.LoadScene(sceneName);
+    }
+
+    // ===== 追加：ポイントだけ先に試算（状態は書き換えない）=====
+    public Dictionary<string, int> PreviewPoints(List<(string name, int rawScore)> results, bool lowerScoreIsBetter)
+    {
+        var joined = GetJoinedPlayers();
+        var map = new Dictionary<string, int>();
+        if (joined.Count == 0 || results == null || results.Count == 0) return map;
+
+        var ordered = lowerScoreIsBetter
+            ? results.OrderBy(r => r.rawScore).ToList()
+            : results.OrderByDescending(r => r.rawScore).ToList();
+
+        var table = pointTables.FirstOrDefault(t => t.playerCount == joined.Count);
+        if (table.entries == null || table.entries.Count == 0) return map;
+
+        int i = 0;
+        while (i < ordered.Count)
+        {
+            int score = ordered[i].rawScore;
+            int start = i;
+            while (i < ordered.Count && ordered[i].rawScore == score) i++;
+            int end = i - 1; // 同点グループ最後
+            int rankForPoints = end + 1;
+            var entry = table.entries.FirstOrDefault(e => e.rank == rankForPoints);
+            int pts = (entry.points > 0) ? entry.points : table.entries.Last().points;
+
+            for (int j = start; j <= end; j++)
+            {
+                string nm = ordered[j].name;
+                map[nm] = pts;
+            }
+        }
+        return map;
+    }
+
+    // ===== 追加：結果を確定して次へ（従来の ReportRoundResult の中身）=====
+    public void CommitRoundResult(List<(string name, int rawScore)> results, bool lowerScoreIsBetter)
+    {
+        CalculatePoints(results, lowerScoreIsBetter);
+
+        if (currentGameMode == GameMode.Diagnosis)
+        {
+            diagnosisIndex++;
+            if (diagnosisIndex >= diagnosisQueue.Count)
+            {
+                CalculateFinalResults();
+                LoadResultScene();
+            }
+            else
+            {
+                LoadSceneSafe(diagnosisQueue[diagnosisIndex].sceneName);
+            }
+        }
+        else
+        {
+            LoadFreePlaySelectScene();
+        }
+    }
+
+    public void ReportRoundResult(List<(string name, int rawScore)> results, bool lowerScoreIsBetter)
+    {
+        // 後方互換の窓口：実体は CommitRoundResult へ
+        CommitRoundResult(results, lowerScoreIsBetter);
     }
 }

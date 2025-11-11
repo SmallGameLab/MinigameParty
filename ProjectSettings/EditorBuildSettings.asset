@@ -15,30 +15,30 @@ EditorBuildSettings:
     path: Assets/Scenes/ResultScene.unity
     guid: fa24b361262eba04a905a9d5ba8821da
   - enabled: 1
-    path: Assets/Scenes/MG_Scene/MG_4ColorDash.unity
+    path: Assets/Scenes/MiniGame/MG_4ColorDash.unity
     guid: c134cce47c9ff7d44b0dd27aa7196dc4
   - enabled: 1
-    path: Assets/Scenes/MG_Scene/MG_Balloon.unity
+    path: Assets/Scenes/MiniGame/MG_Balloon.unity
     guid: d9b59cf4d074c044d9f90ff813dfc6d2
   - enabled: 1
-    path: Assets/Scenes/MG_Scene/MG_CarRace.unity
+    path: Assets/Scenes/MiniGame/MG_CarRace.unity
     guid: 04e497613fa338342b7887ee36b89d5f
   - enabled: 1
-    path: Assets/Scenes/MG_Scene/MG_CupWater.unity
+    path: Assets/Scenes/MiniGame/MG_CupWater.unity
     guid: 4bd66d6b1d6264640aabf8e61b417423
   - enabled: 1
-    path: Assets/Scenes/MG_Scene/MG_GobyouChallenge.unity
+    path: Assets/Scenes/MiniGame/MG_GobyouChallenge.unity
     guid: 311c5450a9d795c44995e7bef0d668a0
   - enabled: 1
-    path: Assets/Scenes/MG_Scene/MG_HanshaRelay.unity
+    path: Assets/Scenes/MiniGame/MG_HanshaRelay.unity
     guid: 0c12f89acc2340f4f922159fdfe73939
   - enabled: 1
-    path: Assets/Scenes/MG_Scene/MG_PikaStop.unity
+    path: Assets/Scenes/MiniGame/MG_PikaStop.unity
     guid: 50b46fe5a073c2d43a0d9a9b3b316920
   - enabled: 1
-    path: Assets/Scenes/MG_Scene/MG_RocketLaunch.unity
+    path: Assets/Scenes/MiniGame/MG_RocketLaunch.unity
     guid: 39823f59b4cbb1f49b8e74c25fc42cdf
   - enabled: 1
-    path: Assets/Scenes/MG_Scene/MG_Tobikko.unity
+    path: Assets/Scenes/MiniGame/MG_Tobikko.unity
     guid: b7b7897d24bc5f543aec4b969934fc76
   m_configObjects: {}
