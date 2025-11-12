@@ -357,9 +357,30 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ReportRoundResult(List<(string name, int rawScore)> results, bool lowerScoreIsBetter)
+    public void AdvanceAfterRound(bool lowerScoreIsBetter)
     {
-        // 後方互換の窓口：実体は CommitRoundResult へ
-        CommitRoundResult(results, lowerScoreIsBetter);
+        if (currentGameMode == GameMode.Diagnosis)
+        {
+            // 次のミニゲーム or 診断結果へ
+            // ※ CalculatePoints はすでに呼ばれている前提
+            if (!diagnosisQueue?.Any() ?? true) { LoadLobbyScene(); return; }
+
+            // “今のラウンド”が終わったので次へ
+            diagnosisIndex++;
+            if (diagnosisIndex >= diagnosisQueue.Count)
+            {
+                CalculateFinalResults();
+                LoadResultScene();
+            }
+            else
+            {
+                LoadSceneSafe(diagnosisQueue[diagnosisIndex].sceneName);
+            }
+        }
+        else
+        {
+            // FreePlayは選択画面へ戻る
+            LoadFreePlaySelectScene();
+        }
     }
 }

@@ -15,47 +15,78 @@ public class MG_PikaStop : MGSceneBase
 
     protected override IEnumerator PlayRound(Action<List<(string name, int rawScore)>> onFinish)
     {
-        // PlayPanel を開く（MGSceneBase が閉じているので）
-        // PlayPanelは MGSceneBase で管理しているので、ここでは単にゲーム進行だけ書けばOK
         if (bulbOff) bulbOff.SetActive(true);
         if (bulbOn) bulbOn.SetActive(false);
 
-        // 参加プレイヤーのキー/名前
         var joined = GameManager.Instance.GetJoinedPlayers();
         var keyMap = joined.ToDictionary(p => p.key, p => p.playerName);
+        var falseStart = new HashSet<KeyCode>();
+        var reacted = new HashSet<KeyCode>();
+        var results = new List<(string name, int rawScore)>();
 
-        // ランダムな点灯待ち
-        yield return new WaitForSeconds(UnityEngine.Random.Range(0.8f, 2.0f));
+        // ===== ランダム待機（フライング判定区間） =====
+        float wait = UnityEngine.Random.Range(0.8f, 2.0f);
+        float t0 = Time.time;
+        while (Time.time - t0 < wait)
+        {
+            foreach (var kv in keyMap)
+            {
+                if (!falseStart.Contains(kv.Key) && Input.GetKeyDown(kv.Key))
+                {
+                    // フライング登録
+                    falseStart.Add(kv.Key);
+                }
+            }
+            yield return null;
+        }
 
-        // 点灯！
+        // ===== ピカッ！点灯 =====
         if (bulbOff) bulbOff.SetActive(false);
         if (bulbOn) bulbOn.SetActive(true);
 
         float start = Time.time;
-        var reacted = new HashSet<KeyCode>();
-        var results = new List<(string name, int rawScore)>();
 
+        // ===== 反応待ち =====
         while (reacted.Count < keyMap.Count)
         {
             foreach (var kv in keyMap)
             {
-                if (!reacted.Contains(kv.Key) && Input.GetKeyDown(kv.Key))
+                // すでに反応 or フライング済みはスキップ
+                if (reacted.Contains(kv.Key) || falseStart.Contains(kv.Key))
+                    continue;
+
+                if (Input.GetKeyDown(kv.Key))
                 {
                     int ms = Mathf.RoundToInt((Time.time - start) * 1000f);
                     results.Add((kv.Value, ms));
                     reacted.Add(kv.Key);
                 }
             }
+
+            // フライングした人は強制的にスコア0扱いで記録
+            foreach (var kv in falseStart)
+            {
+                if (!reacted.Contains(kv))
+                {
+                    results.Add((keyMap[kv], int.MaxValue)); // フライング: int.MaxValue
+                    reacted.Add(kv);
+                }
+            }
+
             yield return null;
         }
 
-        // MGSceneBase が ShowResult → ReportRoundResult まで面倒見ます
         onFinish?.Invoke(results);
     }
+
 
     // 例: スコアの見た目を上書き（必要なら）
     protected override string FormatRawScore(int rawMs)
     {
-        return $"{rawMs} ms";
+        if (rawMs == int.MaxValue)
+            return "フライング！";
+
+        float sec = rawMs / 1000f;
+        return $"{sec:0.00} 秒";
     }
 }
