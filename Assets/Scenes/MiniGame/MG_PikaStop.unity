@@ -2604,7 +2604,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 056b617a8d8409f4aad775ce36c1d5ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayGameName: MG_PikaStop
+  displayGameName: "\u30D4\u30AB\u30C3\uFF01\u30B9\u30C8\u30C3\u30D7\uFF01"
   previewPanel: {fileID: 1276429959}
   previewTitle: {fileID: 924468759}
   previewDesc: {fileID: 592243283}

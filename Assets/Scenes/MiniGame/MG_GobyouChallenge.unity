@@ -2137,7 +2137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e2c75dde1ee92b43a76168459a56de5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayGameName: 
+  displayGameName: "\u3054\u3073\u3087\u3046\u30C1\u30E3\u30EC\u30F3\u30B8"
   previewPanel: {fileID: 1161950279}
   previewTitle: {fileID: 1479647329}
   previewDesc: {fileID: 1808613800}
@@ -2174,6 +2174,7 @@ MonoBehaviour:
   timerLabel: {fileID: 1793262341}
   targetSeconds: 5
   maxWaitSeconds: 9
+  visibleUntilSeconds: 3
 --- !u!4 &1269751920
 Transform:
   m_ObjectHideFlags: 0
