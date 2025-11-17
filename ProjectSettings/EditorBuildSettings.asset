@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/ResultScene.unity
     guid: fa24b361262eba04a905a9d5ba8821da
   - enabled: 1
-    path: Assets/Scenes/MiniGame/MG_4ColorDash.unity
+    path: Assets/Scenes/MiniGame/MG_RendaMaster.unity
     guid: c134cce47c9ff7d44b0dd27aa7196dc4
   - enabled: 1
     path: Assets/Scenes/MiniGame/MG_Balloon.unity

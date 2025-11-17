@@ -179,7 +179,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "4\u3057\u3087\u304F\u30C0\u30C3\u30B7\u30E5\uFF01"
+  m_text: "\u308C\u3093\u3060\u30DE\u30B9\u30BF\u30FC\uFF01"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 90d6cf685309d2f47af3eb86b159a0bb, type: 2}
   m_sharedMaterial: {fileID: -8816605870765461546, guid: 90d6cf685309d2f47af3eb86b159a0bb, type: 2}
@@ -508,7 +508,7 @@ GameObject:
   - component: {fileID: 442175602}
   - component: {fileID: 442175601}
   m_Layer: 5
-  m_Name: Btn_4ColorDash
+  m_Name: Btn_RendaMaster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -587,7 +587,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: MG_4ColorDash
+          m_StringArgument: MG_RendaMaster
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &442175602
