@@ -178,7 +178,7 @@ public class MG_CupWater : MGSceneBase
             else
             {
                 float diff = Mathf.Abs(1.0f - r.level01);  // 0 に近いほど良い
-                raw = Mathf.RoundToInt(diff * 1000f);      // mm イメージ
+                raw = Mathf.RoundToInt(diff * 1000f);      // ml イメージ
                 if (r.cup.statusLabel) r.cup.statusLabel.text = "セーフ！";
             }
             results.Add((r.name, raw));
@@ -193,6 +193,13 @@ public class MG_CupWater : MGSceneBase
         if (raw >= 999000)
             return "こぼれた！";
 
-        return $"差{raw}mm";
+        // ★ 1 - 差 を計算
+        float perscore = 1f - raw;
+        float score = perscore * 1000f; // 例: 0.97 → 970.0
+
+        // マイナスになることもあるので 0.00 でクランプ (任意)
+        score = Mathf.Max(score, 0f);
+
+        return $"{score:0}ml";
     }
 }

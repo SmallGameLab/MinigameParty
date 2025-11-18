@@ -1450,7 +1450,7 @@ MonoBehaviour:
     waterRect: {fileID: 354496027}
     nameLabel: {fileID: 167821232}
     statusLabel: {fileID: 1072812833}
-  fillSpeed: 0.35
+  fillSpeed: 0.5
   maxDuration: 8
 --- !u!4 &382140024
 Transform:
