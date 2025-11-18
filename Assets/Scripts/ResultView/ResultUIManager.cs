@@ -11,7 +11,7 @@ public class ResultUIManager : MonoBehaviour
     public TextMeshProUGUI animalType;
 
     [Header("Radar Chart")]
-    public RadarChartUI radarChart;   // ★ 追加
+    public ResultRadarChart radarChart;  // レーダーチャートへの参照
 
     int currentIndex = 0;
     List<PlayerData> joined;
@@ -53,14 +53,14 @@ public class ResultUIManager : MonoBehaviour
         if (compliment) compliment.text = p.complimentMessage;
         if (animalType) animalType.text = p.determinedAnimalType;
 
-        // 各ジャンル 0〜20pt を 0〜1 に正規化
-        float reflex01 = Mathf.Clamp01(p.genrePoints["reflex"] / 20f);
-        float mash01 = Mathf.Clamp01(p.genrePoints["mash"] / 20f);
-        float hold01 = Mathf.Clamp01(p.genrePoints["hold"] / 20f);
+        // レーダーチャートを更新
+        int r = p.genrePoints["reflex"];
+        int m = p.genrePoints["mash"];
+        int h = p.genrePoints["hold"];
 
         if (radarChart)
         {
-            radarChart.SetValues(reflex01, mash01, hold01);
+            radarChart.SetValues(r, m, h);
         }
     }
 }
