@@ -11,19 +11,21 @@ public class ResultUIManager : MonoBehaviour
     public TextMeshProUGUI animalType;
 
     [Header("Radar Chart")]
-    public ResultRadarChart radarChart;  // レーダーチャートへの参照
+    public ResultRadarChart radarChart;              // 背景用（五角形など）。今は触らなくてもOK
+    [SerializeField] private ResultSubRadarChart radarFill; // 中身（プレイヤーの値で塗る方）
 
-    int currentIndex = 0;
-    List<PlayerData> joined;
+    private int currentIndex = 0;
+    private List<PlayerData> joined;
 
     void Start()
     {
         joined = GameManager.Instance.GetJoinedPlayers();
-        if (joined.Count == 0)
+        if (joined == null || joined.Count == 0)
         {
             GameManager.Instance.LoadLobbyScene();
             return;
         }
+
         ShowCurrent();
     }
 
@@ -36,6 +38,7 @@ public class ResultUIManager : MonoBehaviour
             currentIndex++;
             if (currentIndex >= joined.Count)
             {
+                // 全員分の結果を見終わったらロビーへ
                 GameManager.Instance.LoadLobbyScene();
             }
             else
@@ -49,18 +52,23 @@ public class ResultUIManager : MonoBehaviour
     {
         var p = joined[currentIndex];
 
+        // テキスト類
         if (playerName) playerName.text = p.playerName;
         if (compliment) compliment.text = p.complimentMessage;
         if (animalType) animalType.text = p.determinedAnimalType;
 
-        // レーダーチャートを更新
-        int r = p.genrePoints["reflex"];
-        int m = p.genrePoints["mash"];
-        int h = p.genrePoints["hold"];
+        // 0〜20pt を 0〜1 に正規化（安全のため Clamp）
+        float reflex01 = Mathf.Clamp01(p.genrePoints["reflex"] / 20f);
+        float mash01 = Mathf.Clamp01(p.genrePoints["mash"] / 20f);
+        float hold01 = Mathf.Clamp01(p.genrePoints["hold"] / 20f);
 
-        if (radarChart)
+        Debug.Log($"[ResultUIManager] {p.playerName} R={reflex01} M={mash01} H={hold01}");
+
+        // レーダーチャート本体（塗りつぶし）に値を反映
+        if (radarFill != null)
         {
-            radarChart.SetValues(r, m, h);
+            radarFill.SetValues(reflex01, mash01, hold01, p.playerColor);
         }
     }
+
 }
