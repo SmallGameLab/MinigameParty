@@ -194,7 +194,7 @@ public class MG_CupWater : MGSceneBase
             return "こぼれた！";
 
         // ★ 1 - 差 を計算
-        float perscore = 1f - raw;
+        float perscore = 1 - raw / 1000f;
         float score = perscore * 1000f; // 例: 0.97 → 970.0
 
         // マイナスになることもあるので 0.00 でクランプ (任意)
