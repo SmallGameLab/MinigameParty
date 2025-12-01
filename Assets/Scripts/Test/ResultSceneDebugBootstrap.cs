@@ -1,73 +1,74 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ResultScene ’P‘Ì‚ÅÄ¶‚µ‚½‚Æ‚«—p‚ÌƒeƒXƒgƒf[ƒ^ƒu[ƒgƒXƒgƒ‰ƒbƒvB
-/// - GameManager.Instance ‚ª‚¢‚È‚¯‚ê‚ÎuƒfƒoƒbƒO—p GameManagerv‚ğ¶¬‚µ‚Ä
-///   ƒ_ƒ~[‚ÌƒvƒŒƒCƒ„[ƒf[ƒ^‚ğ—¬‚µ‚ŞB
-/// - ƒƒr[‚©‚ç•’Ê‚É—ˆ‚½‚Æ‚«iGameManager ‚ª‚·‚Å‚É‘¶İ•Q‰ÁÒ‚ ‚èj‚Í‰½‚à‚µ‚È‚¢B
+/// ResultScene å˜ä½“ã§å†ç”Ÿã—ãŸã¨ãç”¨ã®ãƒ†ã‚¹ãƒˆãƒ‡ãƒ¼ã‚¿ãƒ–ãƒ¼ãƒˆã‚¹ãƒˆãƒ©ãƒƒãƒ—ï¼ˆã‚¸ãƒ£ãƒ³ãƒ«ãƒã‚¤ãƒ³ãƒˆã®ã¿ãƒ©ãƒ³ãƒ€ãƒ ï¼‰
+/// - GameManager.Instance ãŒã„ãªã‘ã‚Œã°ãƒ‡ãƒãƒƒã‚°ç”¨ GameManager ã‚’ç”Ÿæˆ
+/// - ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼3ã€œ4äººã‚’å›ºå®šã§ä½œã‚Šã€ã‚¸ãƒ£ãƒ³ãƒ«ãƒã‚¤ãƒ³ãƒˆã®ã¿ã‚’ãƒ©ãƒ³ãƒ€ãƒ ã«è¨­å®š
+/// - ãƒ­ãƒ“ãƒ¼ã‹ã‚‰æ¥ãŸå ´åˆï¼ˆGameManager ãŒæ—¢ã«å®Ÿãƒ‡ãƒ¼ã‚¿æŒã¡ï¼‰ã¯ä½•ã‚‚ã—ãªã„
 /// </summary>
-[DefaultExecutionOrder(-200)]  // ‘¼‚Ì Start ‚æ‚èæ‚É“®‚«‚â‚·‚­‚·‚é
+[DefaultExecutionOrder(-200)]
 public class ResultSceneDebugBootstrap : MonoBehaviour
 {
+    // ãƒ©ãƒ³ãƒ€ãƒ ã«ã™ã‚‹ç¯„å›²ï¼ˆ0ã€œ20ï¼‰
+    [SerializeField] private int minPoint = 0;
+    [SerializeField] private int maxPoint = 20;
+
     void Start()
     {
-        // ‚·‚Å‚É–{”Ô—p GameManager ‚ª‚¢‚ÄAQ‰ÁÒ‚à‚¢‚é‚È‚ç‰½‚à‚µ‚È‚¢
-        if (GameManager.Instance != null && GameManager.Instance.GetJoinedPlayers().Count > 0)
+        // æœ¬ç•ª GameManager ã‹ã¤å‚åŠ è€…ã‚ã‚Š â†’ ä½•ã‚‚ã—ãªã„
+        if (GameManager.Instance != null &&
+            GameManager.Instance.GetJoinedPlayers().Count > 0)
         {
-            Debug.Log("[ResultSceneDebugBootstrap] –{”Ô GameManager ‚ğŒŸo ¨ ‰½‚à‚µ‚Ü‚¹‚ñB");
+            Debug.Log("[Bootstrap] æœ¬ç•ªãƒ‡ãƒ¼ã‚¿æ¤œå‡º â†’ ãƒ†ã‚¹ãƒˆãƒ¢ãƒ¼ãƒ‰ç„¡åŠ¹åŒ–");
             return;
         }
 
-        // GameManager ‚ª‚¢‚È‚¯‚ê‚ÎƒfƒoƒbƒO—p‚ğ¶¬
+        // GameManager ãŒ Scene ã«ã„ãªã‘ã‚Œã°ãƒ‡ãƒãƒƒã‚°ç”¨ã‚’ç”Ÿæˆ
         if (GameManager.Instance == null)
         {
-            Debug.Log("[ResultSceneDebugBootstrap] GameManager ‚ªŒ©‚Â‚©‚ç‚È‚¢‚Ì‚ÅƒfƒoƒbƒO—p‚ğ¶¬‚µ‚Ü‚·B");
+            Debug.Log("[Bootstrap] GameManager ãŒç„¡ã„ã®ã§ãƒ‡ãƒãƒƒã‚°ç”¨ã‚’ç”Ÿæˆã—ã¾ã™");
             var go = new GameObject("GameManager (Debug)");
-            go.AddComponent<GameManager>();  // Awake ‚ª‘–‚é‚ªA‚±‚±‚Å‚Í’†g‚Í‚Ü‚¾‹C‚É‚µ‚È‚¢
-        }
-        else
-        {
-            Debug.Log("[ResultSceneDebugBootstrap] ‹ó‚Ì GameManager ‚Í‚¢‚é‚ªQ‰ÁÒ‚ª‚¢‚È‚¢‚Ì‚ÅƒeƒXƒgƒf[ƒ^‚ğ—¬‚µ‚İ‚Ü‚·B");
+            go.AddComponent<GameManager>();
         }
 
-        // ‚±‚±‚Ü‚Å—ˆ‚½‚ç•K‚¸ Instance ‚Í‚¢‚é
         var gm = GameManager.Instance;
 
-        // ==== ƒ_ƒ~[ƒvƒŒƒCƒ„[‚ğ 3 l•ª‚Â‚­‚é ====
+        // ===== ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’å›ºå®šã§ 3ï½4 äººä½œã‚‹ =====
         gm.players = new List<PlayerData>();
 
-        // 1l–ÚFƒXƒs[ƒh‚‚ß
-        var p1 = new PlayerData(0, KeyCode.Q, "‚İ‚Ç‚è", Color.green);
-        p1.isJoined = true;
-        p1.genrePoints["reflex"] = 18;  // ƒXƒs[ƒh
-        p1.genrePoints["mash"] = 10;  // ‚½‚¢‚è‚å‚­
-        p1.genrePoints["hold"] = 8;   // ‚µ‚ã‚¤‚¿‚ã‚¤
-        gm.players.Add(p1);
+        // å›ºå®šãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼è¨­å®š
+        var fixedPlayers = new (string name, KeyCode key, Color color)[]
+        {
+            ("ã¿ã©ã‚Š", KeyCode.Q, Color.green),
+            ("ã‚ãŠ",    KeyCode.R, Color.blue),
+            ("ã‚ã‹",    KeyCode.U, Color.red),
+            ("ãã„ã‚", KeyCode.P, new Color(1f,0.9f,0.2f))
+        };
 
-        // 2l–ÚF‚½‚¢‚è‚å‚­‚‚ß
-        var p2 = new PlayerData(1, KeyCode.R, "‚ ‚¨", Color.blue);
-        p2.isJoined = true;
-        p2.genrePoints["reflex"] = 9;
-        p2.genrePoints["mash"] = 17;
-        p2.genrePoints["hold"] = 11;
-        gm.players.Add(p2);
+        // ä»Šå›ã¯ 4 äººå›ºå®šã«ã—ã¦å•é¡Œãªã—ï¼ˆå¿…è¦ãªã‚‰ 3 ã«æ¸›ã‚‰ã—ã¦ã‚‚OKï¼‰
+        int playerCount = fixedPlayers.Length;
 
-        // 3l–ÚF‚µ‚ã‚¤‚¿‚ã‚¤‚‚ß
-        var p3 = new PlayerData(2, KeyCode.U, "‚ ‚©", Color.red);
-        p3.isJoined = true;
-        p3.genrePoints["reflex"] = 7;
-        p3.genrePoints["mash"] = 8;
-        p3.genrePoints["hold"] = 19;
-        gm.players.Add(p3);
+        for (int i = 0; i < playerCount; i++)
+        {
+            var fp = fixedPlayers[i];
+            var p = new PlayerData(i, fp.key, fp.name, fp.color);
+            p.isJoined = true;
 
-        // f’fƒ‚[ƒh‘z’è‚É‚µ‚Ä‚¨‚­i”O‚Ì‚½‚ßj
+            // ===== â˜… ã‚¸ãƒ£ãƒ³ãƒ«ãƒã‚¤ãƒ³ãƒˆã®ã¿ãƒ©ãƒ³ãƒ€ãƒ ç”Ÿæˆ =====
+            p.genrePoints["reflex"] = Random.Range(minPoint, maxPoint + 1);
+            p.genrePoints["mash"] = Random.Range(minPoint, maxPoint + 1);
+            p.genrePoints["hold"] = Random.Range(minPoint, maxPoint + 1);
+
+            gm.players.Add(p);
+        }
+
         gm.currentGameMode = GameMode.Diagnosis;
 
-        // “®•¨ƒ^ƒCƒv•‚Ù‚ßŒ¾—t‚ğ©“®ŒvZ
+        // å‹•ç‰©ã‚¿ã‚¤ãƒ— & è¤’ã‚è¨€è‘‰ã‚’è‡ªå‹•è¨ˆç®—
         gm.CalculateFinalResults();
 
-        Debug.Log("[ResultSceneDebugBootstrap] ƒeƒXƒg—pƒvƒŒƒCƒ„[ƒf[ƒ^‚ğƒZƒbƒg‚µ‚Ü‚µ‚½BQ‰ÁÒ”: "
+        Debug.Log("[Bootstrap] ãƒ©ãƒ³ãƒ€ãƒ ãƒã‚¤ãƒ³ãƒˆã‚’å‰²ã‚Šå½“ã¦ã¾ã—ãŸ â†’ ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼: "
                   + gm.GetJoinedPlayers().Count);
     }
 }

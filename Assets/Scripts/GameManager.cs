@@ -252,18 +252,18 @@ public class GameManager : MonoBehaviour
         bool topR = (r == max), topM = (m == max), topH = (h == max);
         int topCount = (topR ? 1 : 0) + (topM ? 1 : 0) + (topH ? 1 : 0);
 
-        if (topCount == 3) return "なんでもできるね！いろんなことにチャレンジしてみよう！";
+        if (topCount == 3) return "なんでもできるね！\nいろんなことにチャレンジしてみよう！";
         if (topCount == 2)
         {
-            if (topR && topM) return "動くのがじょうずだね！スポーツでかつやくできそう！";
-            if (topR && topH) return "すばやくてしっかりできるね！ピアノやダンスが得意そう！";
-            if (topM && topH) return "がんばりやさんだね！書道や工作が得意そう！";
+            if (topR && topM) return "動くのがじょうずだね！\nスポーツでかつやくできそう！";
+            if (topR && topH) return "すばやくてしっかりできるね！\nピアノやダンスが得意そう！";
+            if (topM && topH) return "がんばりやさんだね！\n書道や工作が得意そう！";
         }
         if (topCount == 1)
         {
-            if (topR) return "はやく動けるね！ドッジボールやかけっこが得意そう！";
-            if (topM) return "たくさん動けるね！サッカーや水泳が得意そう！";
-            if (topH) return "よくがんばれたね！パズルや読書が得意そう！";
+            if (topR) return "はやく動けるね！\nドッジボールやかけっこが得意そう！";
+            if (topM) return "たくさん動けるね！\nサッカーや水泳が得意そう！";
+            if (topH) return "よくがんばれたね！\nパズルや読書が得意そう！";
         }
         return "いろんなことができてすごいね！";
     }
