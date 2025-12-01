@@ -38,7 +38,7 @@ public class PlayerData
     }
 }
 
-/// ミニゲームの“辞書”。Prefabは使わず、sceneName で遷移する
+/// ミニゲームの“辞書”。
 [Serializable]
 public struct MiniGameInfo
 {
